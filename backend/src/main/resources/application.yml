@@ -1,0 +1,6 @@
+server:
+  port: 8082
+
+opentok:
+  api-key: xxxxx
+  secret-key: xxxxx
