@@ -32,7 +32,6 @@ export default class ChatUser {
 
     this.session = OT.initSession(this.userConnection.roomConnectionId.apiKey, this.userConnection.roomConnectionId.connectionId);
 
-    console.log(this.publisherVideoArea.videoElementId)
     this.publisher = OT.initPublisher(this.publisherVideoArea.videoElementId, {
       insertMode: 'append',
       width: '100%',

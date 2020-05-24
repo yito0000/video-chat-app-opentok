@@ -1,6 +1,5 @@
 <template>
   <div id="video-chat">
-    <VideoArea v-bind:videoId="chatUser.publisherVideoArea.videoElementId" v-bind:nameLabelValue="chatUser.userConnection.userName" />
     <VideoArea v-for="user in visitedChatUsers" :key="user.userConnection.userId" v-bind:videoId="user.publisherVideoArea.videoElementId" v-bind:nameLabelValue="user.userConnection.userName" />
   </div>
 </template>
@@ -20,27 +19,30 @@
         visitedChatUsers: []
       }
     },
-    mounted() {
-      this.$nextTick().then(() => {
-        let chatUserPromise = null;
-        if (this.$route && this.$route.query.roomId) {
-          const roomId = this.$route.query.roomId;
-          console.log(roomId);
-          // 入室者一覧を取得してコンポーネントを作成する
-          const userName = this.$route.query.userName ? this.$route.query.userName : 'ユーザー';
-          chatUserPromise = chatUserUseCase.joinRoom(roomId, userName);
-        } else {
-          chatUserPromise = chatUserUseCase.joinNewRoom('テスト', 'ユーザー1');
-        }
+    created() {
+      let chatUserPromise = null;
+      if (this.$route && this.$route.query.roomId) {
+        const roomId = this.$route.query.roomId;
+        console.log(roomId);
+        // 入室者一覧を取得してコンポーネントを作成する
+        const userName = this.$route.query.userName ? this.$route.query.userName : 'ユーザー';
+        chatUserPromise = chatUserUseCase.joinRoom(roomId, userName);
+      } else {
+        chatUserPromise = chatUserUseCase.joinNewRoom('テスト', 'ユーザー1');
+      }
 
-        chatUserPromise.then(chatUser => {
-          // this.visitedChatUsers.push(chatUser);
-          this.chatUser = chatUser;
-          console.log(this.components.VideoArea);
-          // this.chatUser.connect();
-        });
-
+      chatUserPromise.then(chatUser => {
+        this.visitedChatUsers.push(chatUser);
+        this.chatUser = chatUser;
       });
+
+    },
+
+    updated() {
+      this.$nextTick().then(() => {
+        this.chatUser.connect();
+      })
+
     },
   }
 </script>
