@@ -17,6 +17,5 @@
   .video {
     height: 300px;
     width: 400px;
-    margin: auto;
   }
 </style>

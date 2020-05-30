@@ -2,10 +2,6 @@ import axios, {AxiosResponse} from 'axios'
 import UserConnection from "@/domain/UserConnection";
 import RoomConnectionId from "@/domain/RoomConnectionId";
 import {UserConnectionJson} from "@/driver/datamodel/UserConnectionJson";
-import {RoomJson} from "@/driver/datamodel/RoomJson";
-import RoomArea from "@/domain/RoomArea";
-import {UserInfoJson} from "@/driver/datamodel/UserInfoJson";
-import VideoArea from "@/domain/VideoArea";
 
 export default class OpenTokDriver {
 
@@ -17,16 +13,6 @@ export default class OpenTokDriver {
     }).catch(error => {
       return Promise.reject(error);
     })
-  }
-
-  public fetchRoom(roomId: string): Promise<RoomArea> {
-    return axios.get(`/api/room/${roomId}`).then(response => {
-      const roomArea = this.convertRoomArea(response);
-      return Promise.resolve(roomArea);
-    }).catch(error => {
-      return Promise.reject(error);
-    })
-
   }
 
   public joinRoom(roomId: string, userName: string): Promise<UserConnection> {
@@ -67,28 +53,5 @@ export default class OpenTokDriver {
     return userConnection;
   }
 
-  convertRoomArea(response: AxiosResponse): RoomArea {
-    const json: RoomJson = response.data;
-
-    const roomId = json.roomId;
-    const name = json.roomName;
-    const joinedUsers = json.userInfoList;
-
-    const roomArea = new RoomArea({
-      roomId: roomId,
-      roomName: name,
-      videoAreaList: joinedUsers.map(joinedUser => this.convertUserInfoJsonToVideoArea(joinedUser))
-    });
-    return roomArea;
-  }
-
-  convertUserInfoJsonToVideoArea(json: UserInfoJson): VideoArea {
-    return new VideoArea({
-      videoElementId: json.userId,
-      userName: json.userName,
-      height: '100%',
-      width: '100%'
-    })
-  }
 }
 
