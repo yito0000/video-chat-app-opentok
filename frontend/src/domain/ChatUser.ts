@@ -2,7 +2,6 @@ import VideoArea from "@/domain/VideoArea";
 import UserConnection from "@/domain/UserConnection";
 import OT from '@opentok/client'
 import {Vue} from "vue/types/vue";
-import RoomArea from "@/domain/RoomArea";
 
 export interface ChatUserProps {
   publisherVideoArea: VideoArea;
