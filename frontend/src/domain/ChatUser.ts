@@ -17,25 +17,24 @@ export default class ChatUser {
 
   userConnection: UserConnection;
 
-  session?: OT.Session;
+  session: OT.Session;
 
   constructor(props: ChatUserProps) {
     this.publisherVideoArea = props.publisherVideoArea;
     this.userConnection = props.userConnection;
-
+    this.session = OT.initSession(this.userConnection.roomConnectionId.apiKey, this.userConnection.roomConnectionId.connectionId);
   }
 
-  public connect() {
+  public connect(videoAreaList: VideoArea[]) {
     const handleError = (error: any) => {
       if (error) console.log(error);
     };
 
-    this.session = OT.initSession(this.userConnection.roomConnectionId.apiKey, this.userConnection.roomConnectionId.connectionId);
-
     this.publisher = OT.initPublisher(this.publisherVideoArea.videoElementId, {
       insertMode: 'append',
       width: '100%',
-      height: '100%'
+      height: '100%',
+      name: this.userConnection.userId
     }, handleError);
 
     this.session.connect(this.userConnection.userConnectionToken, error => {
@@ -51,14 +50,21 @@ export default class ChatUser {
       }
     });
 
-    this.session.on('streamCreated', event => {
-      if(this.session == null) return new Error('not found session');
-      this.session.subscribe(event.stream, event.stream.name, {
-        insertMode: 'append',
-        width: '100%',
-        height: '100%'
-      }, handleError);
-    });
+    // this.session.on('streamCreated', event => {
+    //   const videoArea = new VideoArea({
+    //     videoElementId: event.stream.name,
+    //     userName: '',
+    //     height: '100%',
+    //     width: '100%'
+    //   });
+    //   videoAreaList.push(videoArea)
+    //   if(this.session == null) return new Error('not found session');
+    //   this.session.subscribe(event.stream, event.stream.name, {
+    //     insertMode: 'append',
+    //     width: '100%',
+    //     height: '100%'
+    //   }, handleError);
+    // });
   }
 
 }

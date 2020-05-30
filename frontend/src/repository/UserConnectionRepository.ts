@@ -15,7 +15,7 @@ export default class UserConnectionRepository implements IUserConnectionReposito
   }
 
   public createUserConnectionById(roomId: string, userName: string): Promise<UserConnection> {
-    return this.createUserConnectionById(roomId, userName);
+    return this.openTokDriver.joinRoom(roomId, userName);
   }
 
 }

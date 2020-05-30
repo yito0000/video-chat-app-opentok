@@ -12,7 +12,7 @@ public class UserConnectionJsonConverter {
                 .roomId(chatUserEntity.getDestinationRoomId().getValue())
                 .apiKey(roomEntity.getRoomConnectionId().getApiKey())
                 .roomConnectionId(roomEntity.getRoomConnectionId().getConnectionValue())
-                .roomName(roomEntity.getRoomId().getValue())
+                .roomName(roomEntity.getName())
                 .userInfo(UserInfoJson.builder()
                         .userId(chatUserEntity.getChatUserId().getId())
                         .userName(chatUserEntity.getName())

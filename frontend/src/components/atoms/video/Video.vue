@@ -1,6 +1,5 @@
 <template>
   <div class="video" v-bind:id="videoId">
-    動画表示部分
   </div>
 </template>
 
