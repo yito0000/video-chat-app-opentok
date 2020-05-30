@@ -35,7 +35,7 @@ export default class ChatUser {
       insertMode: 'append',
       width: '100%',
       height: '100%',
-      name: this.userConnection.userId
+      name: this.userConnection.userName
     }, handleError);
 
     this.session.connect(this.userConnection.userConnectionToken, error => {
@@ -46,21 +46,20 @@ export default class ChatUser {
           handleError(new Error('not found publisher'));
           return;
         }
-        if(this.session == null) return new Error('not found session');
         this.session.publish(this.publisher, handleError);
       }
     });
 
     this.session.on('streamCreated', event => {
       const videoArea = new VideoArea({
-        videoElementId: event.stream.name,
+        videoElementId: event.stream.streamId,
         userName: '追加された',
         height: '100%',
         width: '100%'
       });
       videoAreaList.push(videoArea)
       vue.$nextTick(() => {
-        this.session.subscribe(event.stream, event.stream.name, {
+        this.session.subscribe(event.stream, event.stream.streamId, {
           insertMode: 'append',
           width: '100%',
           height: '100%'

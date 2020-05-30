@@ -25,7 +25,7 @@
 <style scoped>
   .video-area {
     display: table-cell;
-    padding: 10px;
+    margin: 10px;
     width: 400px;
     box-sizing:border-box;
   }
