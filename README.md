@@ -43,9 +43,14 @@ npm install
 npm run serve
 ```
 
-
-
 ### 使い方
 
 `https://localhost:8081/video-chat` で画面を開き、ビデオチャットの相手に画面に表示されるURLを共有し、開いてもらいます。
 
+### その他
+`npm run build` して作成された `dist` にある各ファイル・ディレクトリを `backend/src/main/resources/static/` 配下に置くと `backend` のみでアプリとして起動できます。
+どこかのサーバーにデプロイして使いたい場合は、この作業をした後に `backend` の階層で `./gradlew clean build` でビルドして、 `backend/build/libs` 配下に生成された `.jar` ファイルをデプロイすればJavaアプリとして実行できます。
+
+## License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
